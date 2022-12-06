@@ -21,7 +21,7 @@ class Day5 {
         }
 
         var result = ""
-        for (stack in stacks){
+        for (stack in stacks) {
             result += stack.first()
         }
 
@@ -40,6 +40,23 @@ class Day5 {
             for (chunk in 0 until chunks.count()) {
                 if (chunks[chunk] != "")
                     stacks[chunk].add(chunks[chunk])
+            }
+        }
+
+        return stacks
+    }
+
+    fun parseMap(input: List<String>): List<MutableList<Char>> {
+        val map = input.takeWhile { it.isNotBlank() }.reversed()
+        val count = map.first().replace(" ", "").last().digitToInt()
+        val stacks: List<MutableList<Char>> = buildList(count) { for (i in 0 until count) add(mutableListOf()) }
+
+        map.drop(1).forEach { line ->
+            for (i in 0 until count) {
+                val index = 1 + i * 4
+                line.getOrNull(index)?.let {
+                    stacks[i].add(it)
+                }
             }
         }
 
@@ -68,13 +85,13 @@ class Day5 {
                 group.add(popped)
             }
 
-            for(item in group.reversed()){
+            for (item in group.reversed()) {
                 stacks[move.to - 1].addFirst(item)
             }
         }
 
         var result = ""
-        for (stack in stacks){
+        for (stack in stacks) {
             result += stack.first()
         }
 
