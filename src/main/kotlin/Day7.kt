@@ -1,5 +1,3 @@
-import java.math.BigInteger
-
 fun main() {
     val data = utils.loadFile("Day7")
 
