@@ -98,6 +98,8 @@ class Day11 {
         val textMonkies = mutableList.chunked(6)
         val monkies = mutableListOf<Monkey>()
 
+        var mod = BigInteger.ONE
+
         for (monkey in textMonkies) {
             val number = monkeyNumber(monkey.single { it.trim().startsWith("Monkey") })
             val items = monkeyItems(monkey.single { it.trim().contains("items") })
@@ -111,6 +113,8 @@ class Day11 {
             monkies.add(m)
         }
 
+        mod = monkies.fold(BigInteger.ONE) {acc, monkey -> acc * monkey.test}
+
         for (round in 1..10000) {
             println("Round: $round")
             for (monkey in monkies) {
@@ -118,6 +122,8 @@ class Day11 {
                     val currentItem = monkey.items.removeFirst()
                     var worry = monkey.inspect(currentItem)
                     //worry /= 3
+
+                    worry %= mod
 
                     if (worry.mod(monkey.test) == BigInteger.ZERO) {
                         monkies.single { it.number == monkey.trueAction }.items.addLast(worry)
